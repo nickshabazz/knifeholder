@@ -4,7 +4,7 @@ This is a modular 3D model of a device which can be used to hold knives, pens, s
 
 ## How to use
 
-For more details on how to use this, please see my YouTube video at FIXME.
+For more details on how to use this, please see my YouTube video at [https://youtu.be/y_vMpbq15GI](https://youtu.be/y_vMpbq15GI).
 
 I've also included a few specific STL files generated which can be used directly, if you'd rather not generate your own custom files from the .scad file.
 
