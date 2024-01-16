@@ -29,6 +29,11 @@ supportpositionwidth=0.15;
 // Width of the supports in mm (20mm is reasonable)
 supportwidth=20;
 
+// Set to true to print separate holder pieces for arbitrary length knives/swords
+splitbase=false;
+// Set to true to print the base with a cutout between the holders
+openbase=true;
+
 // Number of knives
 knifenum=2;
 
@@ -53,10 +58,47 @@ module baseshapehull(length, width, thiccness, hullrad1, hullrad2) {
      translate([length-hullrad1,width-hullrad1,0]){cylinder(thiccness,hullrad1,hullrad2);};
      translate([hullrad1,width-hullrad1,0]){cylinder(thiccness,hullrad1,hullrad2);};
      translate([length-hullrad1,hullrad1,0]){cylinder(thiccness,hullrad1,hullrad2);};
-            };
-            // Comment out the next line to print a solid base, without the hole
-     translate([length*0.15,width*0.25,-10]) {cube([length*0.7, bwidth*0.5, 100]);};
+     translate([length-hullrad1,hullrad1+10,0]){cylinder(thiccness,hullrad1,hullrad2);};
+    };
+    if(openbase) {
+        translate([length*0.15,width*0.25,-10]) {
+            cube([length*0.7, bwidth*0.5, 100]);
+        };
+     }
  };};
+// This creates a separate base with rounded edges for the blade and hanlde sides
+module baseshapesplithulls(length, width, thiccness, hullrad1, hullrad2) {
+    // Creates a hull around  tapered cylinders for the blade holders
+    hull(){
+        translate([hullrad1,bladepos+hullrad1,0]){
+            cylinder(thiccness,hullrad1,hullrad2);
+        };
+        translate([hullrad1,bladepos-hullrad1,0]){
+            cylinder(thiccness,hullrad1,hullrad2);
+        };
+        translate([length-hullrad1,bladepos+hullrad1,0]){
+            cylinder(thiccness,hullrad1,hullrad2);
+        };
+        translate([length-hullrad1,bladepos-hullrad1,0]){
+            cylinder(thiccness,hullrad1,hullrad2);
+        };
+    };
+    // Creates a hull around  tapered cylinders for the hanlde holders
+    hull(){
+        translate([length-hullrad1,handlepos+hullrad1,0]){
+            cylinder(thiccness,hullrad1,hullrad2);
+        };
+        translate([hullrad1,handlepos-hullrad1,0]){
+            cylinder(thiccness,hullrad1,hullrad2);
+        };
+        translate([length-hullrad1,handlepos-hullrad1,0]){
+            cylinder(thiccness,hullrad1,hullrad2);
+        };
+        translate([hullrad1,handlepos+hullrad1,0]){
+            cylinder(thiccness,hullrad1,hullrad2);
+        };
+    }
+ };
 // This creates a holder with a round cutout for handles           
 module handleholder(supportlength, supportwidth, height, handlediameter) {
     toplength=(handlediameter*1.1);
@@ -89,8 +131,12 @@ union(){
         knifeoffset=knifeid*baselengthoffset;
         knifeheight=(knifeid*handleheightdiff);
         bladeheight=knifeheight-handletobladefall;
-translate([knifeoffset,handlepos,bthiccness])rotate([0,0,90])handleholder(supportlength,supportwidth,knifeheight,handlediameter);
+        translate([knifeoffset,handlepos,bthiccness])rotate([0,0,90])handleholder(supportlength,supportwidth,knifeheight,handlediameter);
         translate([knifeoffset,bladepos,bthiccness])rotate([0,0,0])bladeholder(supportlength,supportwidth,bladeheight,bladenotchdepth,bladenotchwidth, handlediameter);
     };
-    baseshapehull(blength,bwidth,bthiccness,bhullrad1,bhullrad2);
+    if(splitbase) {
+        baseshapesplithulls(blength,bwidth,bthiccness,bhullrad1,bhullrad2);
+    } else {
+        baseshapehull(blength,bwidth,bthiccness,bhullrad1,bhullrad2);
+    }
 };
