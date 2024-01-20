@@ -5,7 +5,7 @@
 // Nick Shabazz - 2024
 
 // Length in mm (perpendicular to the knives)
-blength=100;
+blength=140;
 // Width in mm (parallel to the knives)
 bwidth=150;
 // Thickness in mm of the base (8mm is reasonable)
@@ -15,7 +15,7 @@ bhullrad1=10;
 // Radius in mm at top of the base (for tapering base, for untapered, make the same value as above) (6mm is reasonable)
 bhullrad2=6;
 // Increase in height from tier to tier in mm (sets the difference between each level of knife, as well as the height of the first layer) (25mm is reasonable)
-handleheightdiff=25;
+handleheightdiff=23;
 // Distance in mm between the top of the handle rest and the top of the blade rest (13mm is reasonable)
 handletobladefall=13;
 // Diameter of the handle rest in mm (25mm is reasonable)
@@ -30,21 +30,23 @@ supportpositionwidth=0.15;
 supportwidth=20;
 
 // Number of knives
-knifenum=2;
+knifenum=4;
+
+// To put the handle on the left, change handleSide below to "left"
+handleSide="left";
 
 // Defines the length of each support piece in terms of the overall length of the base
-supportlength=(0.8*blength)/knifenum;
+// If you're making a single knife stand and the pyramids of the supports are 'sticking out over' the beveled base, go ahead and change '1' below to 0.8 and it'll fix that.
+supportlength=(1*blength)/knifenum;
+
 // No need to modify this bit, it just defines the position of the supports parametrically
 righthandlepos=(1-supportpositionwidth)*bwidth;
 rightbladepos=supportpositionwidth*bwidth;
 lefthandlepos=supportpositionwidth*bwidth;
 leftbladepos=(1-supportpositionwidth)*bwidth;
 
-// To put the handle on the left, change handleSide below to "left"
-handleSide="right";
-
 //No need to modify, this checks for a handle side switch to left
-test=handleSide=="left";
+test=handleSide=="right";
 handlepos=test ? righthandlepos : lefthandlepos;
 bladepos=test ? rightbladepos : leftbladepos;
 
