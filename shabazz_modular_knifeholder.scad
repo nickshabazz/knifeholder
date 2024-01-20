@@ -40,9 +40,13 @@ rightbladepos=supportpositionwidth*bwidth;
 lefthandlepos=supportpositionwidth*bwidth;
 leftbladepos=(1-supportpositionwidth)*bwidth;
 
-// To put the handle on the left, change the below two statements to read 'lefthandlepos' and 'leftbladepos'
-handlepos=lefthandlepos;
-bladepos=leftbladepos;
+// To put the handle on the left, change handleSide below to "left"
+handleSide="right";
+
+//No need to modify, this checks for a handle side switch to left
+test=handleSide=="left";
+handlepos=test ? righthandlepos : lefthandlepos;
+bladepos=test ? rightbladepos : leftbladepos;
 
 // This creates the base with rounded edges
 module baseshapehull(length, width, thiccness, hullrad1, hullrad2) {
